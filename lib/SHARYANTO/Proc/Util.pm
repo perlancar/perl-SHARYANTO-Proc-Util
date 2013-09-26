@@ -16,8 +16,9 @@ sub get_parent_processes {
 
     # things will be simpler if we use the -s option, however not all versions
     # of pstree supports it.
+    # -l is for --long (to avoid pstree to cut its output at 132 cols)
 
-    my @lines = `pstree -pA`;
+    my @lines = `pstree -pAl`;
     return undef unless @lines;
 
     my @p;
