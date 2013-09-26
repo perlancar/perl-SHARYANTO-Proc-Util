@@ -1,5 +1,11 @@
 Revision history for SHARYANTO-Proc-Util
 
+0.57    2013-09-26 (SHARYANTO)
+
+        - Fix failure on Ubuntu because pstree output is cut at 132 columns,
+          need to add -l (thanks Olivier Mengué).
+
+
 0.56    2013-09-10 (SHARYANTO)
 
         - No functional changes. Split from SHARYANTO-Utils to minimize

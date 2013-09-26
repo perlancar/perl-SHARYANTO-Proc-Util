@@ -1,7 +1,9 @@
+#!perl
+
 use strict;
 use warnings;
 
-use Test::More tests => 4;
+use Test::More 0.98 tests => 4;
 use SHARYANTO::Proc::Util 'get_parent_processes';
 
 my $ppids = get_parent_processes;
@@ -15,4 +17,3 @@ SKIP: {
     is($ppids->[0]->{pid}, getppid(), 'first process is getppid()')
 	or diag explain $ppids;
 }
-
