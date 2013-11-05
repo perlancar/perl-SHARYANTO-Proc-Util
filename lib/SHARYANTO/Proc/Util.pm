@@ -76,6 +76,8 @@ failure.
 
 =head1 SEE ALSO
 
+L<SHARYANTO>
+
 L<Proc::ProcessTable>. Pros: does not depend on pstree command, process names
 not truncated by pstree. Cons: a little bit more heavyweight (uses File::Spec,
 Cwd, File::Find).
