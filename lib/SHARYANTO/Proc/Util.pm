@@ -11,34 +11,45 @@ our @EXPORT_OK = qw(get_parent_processes);
 # VERSION
 
 sub get_parent_processes {
-    my ($pid) = @_;
+    my ($pid, $opts) = @_;
     $pid //= $$;
+    $opts //= {};
 
-    # things will be simpler if we use the -s option, however not all versions
-    # of pstree supports it.
-    # -l is for --long (to avoid pstree to cut its output at 132 cols)
-
-    my @lines = `pstree -pAl`;
-    return undef unless @lines;
-
-    my @p;
     my %proc;
-    for (@lines) {
-        my $i = 0;
-        while (/(?: (\s*(?:\|-?|`-)) | (.+?)\((\d+)\) )
-                (?: -[+-]- )?/gx) {
-            unless ($1) {
-                my $p = {name=>$2, pid=>$3};
-                $p[$i] = $p;
-                $p->{ppid} = $p[$i-1]{pid} if $i > 0;
-                $proc{$3} = $p;
+    if (($opts->{method} // 'proctable') eq 'pstree') {
+        # things will be simpler if we use the -s option, however not all
+        # versions of pstree supports it. -l is for --long (to avoid pstree to
+        # cut its output at 132 cols)
+
+        my @lines = `pstree -pAl`;
+        return undef unless @lines;
+
+        my @p;
+        for (@lines) {
+            my $i = 0;
+            while (/(?: (\s*(?:\|-?|`-)) | (.+?)\((\d+)\) )
+                    (?: -[+-]- )?/gx) {
+                unless ($1) {
+                    my $p = {name=>$2, pid=>$3};
+                    $p[$i] = $p;
+                    $p->{ppid} = $p[$i-1]{pid} if $i > 0;
+                    $proc{$3} = $p;
+                }
+                $i++;
             }
-            $i++;
+        }
+        #use Data::Dump; dd \%proc;
+    } else {
+        require Proc::ProcessTable;
+        state $pt = Proc::ProcessTable->new;
+        for my $p (@{ $pt->table }) {
+            $proc{ $p->{pid} } = {
+                name=>$p->{fname}, pid=>$p->{pid}, ppid=>$p->{ppid},
+            };
         }
     }
-    #use Data::Dump; dd \%proc;
 
-    @p = ();
+    my @p = ();
     my $cur_pid = $pid;
     while (1) {
         return if !$proc{$cur_pid};
@@ -61,7 +72,7 @@ sub get_parent_processes {
 
 None are exported by default, but they are exportable.
 
-=head2 get_parent_processes($pid) => ARRAY
+=head2 get_parent_processes($pid[, \%opts]) => ARRAY
 
 Return an array containing information about parent processes of C<$pid> up to
 the parent of all processes (usually C<init>). If C<$pid> is not mentioned, it
@@ -72,6 +83,18 @@ followed by its parent, and so on. For example:
 
 Currently retrieves information by calling B<pstree> program. Return undef on
 failure.
+
+Known options:
+
+=over
+
+=item * method => STR (default: C<proctable>)
+
+Either C<proctable> (the default, which means to use L<Proc::ProcessTable>) or
+C<pstree> (which uses the B<pstree> command, which might not be portable between
+Unices).
+
+=back
 
 
 =head1 SEE ALSO
