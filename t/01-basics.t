@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use File::Which;
-use SHARYANTO::Proc::Util 'get_parent_processes';
+use Proc::Find::Parents 'get_parent_processes';
 use Test::More 0.98;
 
 subtest get_parent_processes => sub {

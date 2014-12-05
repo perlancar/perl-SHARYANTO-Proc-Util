@@ -1,4 +1,7 @@
-package SHARYANTO::Proc::Util;
+package Proc::Find::Parents;
+
+# DATE
+# VERSION
 
 use 5.010001;
 use strict;
@@ -7,8 +10,6 @@ use warnings;
 require Exporter;
 our @ISA       = qw(Exporter);
 our @EXPORT_OK = qw(get_parent_processes);
-
-# VERSION
 
 sub get_parent_processes {
     my ($pid, $opts) = @_;
@@ -65,7 +66,7 @@ sub get_parent_processes {
     \@p;
 }
 
-# ABSTRACT: OS-process-related routines
+# ABSTRACT: Find parents of a process (up to the root)
 
 =head1 SYNOPSIS
 
@@ -101,10 +102,8 @@ Unices).
 
 =head1 SEE ALSO
 
-L<SHARYANTO>
-
-L<Proc::ProcessTable>. Pros: does not depend on pstree command, process names
-not truncated by pstree. Cons: a little bit more heavyweight (uses File::Spec,
-Cwd, File::Find).
+L<Proc::ProcessTable>. Pros: does not depend on C<pstree> command, process names
+not truncated by C<pstree>, works on Windows. Cons: a little bit more
+heavyweight (uses File::Spec, Cwd, File::Find).
 
 =cut

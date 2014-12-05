@@ -1,4 +1,9 @@
-Revision history for SHARYANTO-Proc-Util
+Revision history for Proc-Find-Parents
+
+0.62    2014-12-05 (PERLANCAR) (unreleased)
+
+        - Rename module/dist from SHARYANTO-Proc-Util to Proc-Find-Parents.
+
 
 0.61    2014-04-14 (SHARYANTO)
 
