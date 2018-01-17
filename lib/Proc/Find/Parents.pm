@@ -47,7 +47,11 @@ sub get_parent_processes {
         state $pt = Proc::ProcessTable->new;
         for my $p (@{ $pt->table }) {
             $proc{ $p->{pid} } = {
-                name=>$p->{fname}, pid=>$p->{pid}, ppid=>$p->{ppid},
+                name => $p->{fname},
+                cmdline => $p->{cmdline},
+                pid  => $p->{pid},
+                ppid => $p->{ppid},
+                uid  => $p->{uid},
             };
         }
     }
