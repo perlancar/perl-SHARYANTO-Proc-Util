@@ -52,6 +52,14 @@ sub get_parent_processes {
                 pid  => $p->{pid},
                 ppid => $p->{ppid},
                 uid  => $p->{uid},
+                gid  => $p->{gid},
+                pgrp => $p->{pgrp},
+                sess => $p->{sess},
+                sgid => $p->{sgid},
+                euid => $p->{euid},
+                egid => $p->{egid},
+                ttydev => $p->{ttydev},
+                ttynum => $p->{ttynum},
             };
         }
     }
