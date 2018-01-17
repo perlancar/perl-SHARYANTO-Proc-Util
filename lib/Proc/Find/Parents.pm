@@ -48,7 +48,7 @@ sub get_parent_processes {
         for my $p (@{ $pt->table }) {
             $proc{ $p->{pid} } = {
                 name => $p->{fname},
-                cmdline => $p->{cmdline},
+                cmdline => $p->{cmndline},
                 pid  => $p->{pid},
                 ppid => $p->{ppid},
                 uid  => $p->{uid},
