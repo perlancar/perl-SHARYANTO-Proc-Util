@@ -78,6 +78,7 @@ sub get_parent_processes {
     \@p;
 }
 
+1;
 # ABSTRACT: Find parents of a process (up to the root)
 
 =head1 SYNOPSIS
@@ -116,6 +117,6 @@ Unices).
 
 L<Proc::ProcessTable>. Pros: does not depend on C<pstree> command, process names
 not truncated by C<pstree>, works on Windows. Cons: a little bit more
-heavyweight (uses File::Spec, Cwd, File::Find).
+heavyweight (uses L<File::Spec>, L<Cwd>, L<File::Find>).
 
 =cut
